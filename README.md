@@ -1,27 +1,30 @@
 # DevMock
 
-DevMock is a full-stack API mocking platform that allows developers to create and test mock REST APIs without setting up a separate backend for each API.
+DevMock is a full-stack web application for creating and testing mock REST APIs. It allows developers to define an endpoint, HTTP method, status code, and response body, and then use the generated endpoint for development and testing.
 
 ## Live Demo
 
-[DevMock Live Demo](https://devmock-frontend.onrender.com)
+https://devmock-frontend.onrender.com
 
-[GitHub Repository](https://github.com/sarah-5666/DevMock)
+## GitHub Repository
+
+https://github.com/sarah-5666/DevMock
 
 ## Features
 
-* Create custom mock APIs
-* Support for HTTP methods such as GET and POST
-* Set custom endpoint paths
-* Configure HTTP status codes
+* Create custom mock REST APIs
+* Support for different HTTP methods
+* Define custom endpoint paths
+* Configure HTTP response status codes
 * Add custom JSON response bodies
-* Generate accessible mock API endpoints
-* Store mock API details in MongoDB
-* Frontend and backend deployed separately
+* Generate mock API endpoints
+* Store mock API configurations in MongoDB
+* Use generated endpoints for API testing
+* Deployed frontend and backend
 
-## Technologies Used
+## Tech Stack
 
-**Frontend**
+### Frontend
 
 * React
 * Vite
@@ -29,17 +32,17 @@ DevMock is a full-stack API mocking platform that allows developers to create an
 * HTML5
 * CSS3
 
-**Backend**
+### Backend
 
 * Node.js
 * Express.js
 * Mongoose
 
-**Database**
+### Database
 
 * MongoDB Atlas
 
-**Deployment and Version Control**
+### Deployment and Version Control
 
 * Render
 * Git
@@ -47,17 +50,63 @@ DevMock is a full-stack API mocking platform that allows developers to create an
 
 ## How It Works
 
-The user creates a mock API by providing a user ID, HTTP method, endpoint path, status code, and response body.
+The user creates a mock API through the React frontend by providing:
 
-The frontend sends the mock configuration to the backend. The backend stores the configuration in MongoDB and generates an endpoint for the mock API.
+* User ID
+* HTTP method
+* Endpoint path
+* HTTP status code
+* Response body
 
-For example:
+The frontend sends this information to the backend. The backend stores the mock configuration in MongoDB and provides an endpoint that can be used to return the configured response.
+
+The basic flow is:
 
 ```text
-GET /mock/sarah/users
+React Frontend
+      |
+      v
+Node.js / Express Backend
+      |
+      v
+MongoDB Atlas
+      |
+      v
+Generated Mock API
+      |
+      v
+JSON Response
 ```
 
-can return:
+## Example
+
+A mock API can be created with the following configuration:
+
+**User ID**
+
+```text
+sarah
+```
+
+**Method**
+
+```text
+GET
+```
+
+**Endpoint Path**
+
+```text
+/users
+```
+
+**Status Code**
+
+```text
+200
+```
+
+**Response Body**
 
 ```json
 {
@@ -76,70 +125,87 @@ can return:
 }
 ```
 
+The application generates a mock endpoint such as:
+
+```text
+https://devmock-backend.onrender.com/mock/sarah/users
+```
+
+Calling the endpoint returns the configured JSON response.
+
 ## Project Structure
 
 ```text
 DevMock/
+│
 ├── backend/
 │   ├── config/
 │   ├── data/
 │   ├── models/
-│   ├── server.js
-│   └── package.json
+│   ├── package.json
+│   └── server.js
 │
-└── frontend/
-    ├── src/
-    ├── public/
-    ├── package.json
-    └── vite.config.js
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   ├── package.json
+│   └── vite.config.js
+│
+├── .gitignore
+└── README.md
 ```
 
-## Running the Project Locally
+## Running Locally
 
-### 1. Clone the repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/sarah-5666/DevMock.git
 cd DevMock
 ```
 
-### 2. Install backend dependencies
+### Backend Setup
+
+Navigate to the backend directory:
 
 ```bash
 cd backend
 npm install
 ```
 
-### 3. Configure MongoDB
-
-Create a `.env` file inside the `backend` folder:
+Create a `.env` file inside the `backend` directory and add your MongoDB connection string:
 
 ```env
 MONGO_URI=your_mongodb_connection_string
 ```
 
-Do not commit the `.env` file or your database credentials to GitHub.
-
-### 4. Start the backend
+Start the backend:
 
 ```bash
 node server.js
 ```
 
-### 5. Install frontend dependencies
+### Frontend Setup
 
-Open another terminal:
+Open another terminal and navigate to the frontend directory:
 
 ```bash
 cd frontend
 npm install
-```
-
-### 6. Start the frontend
-
-```bash
 npm run dev
 ```
+
+The frontend will start using the Vite development server.
+
+## Environment Variables
+
+The MongoDB connection string is stored as an environment variable.
+
+```env
+MONGO_URI=your_mongodb_connection_string
+```
+
+Database credentials should never be committed to GitHub.
 
 ## Deployment
 
@@ -151,7 +217,7 @@ The application is deployed using Render.
 
 ## Purpose
 
-The main goal of DevMock is to provide a simple way for developers to create temporary mock APIs during frontend development and testing. This can be useful when a real backend API is not yet available.
+DevMock was built to provide a simple way to create temporary API endpoints during frontend development and testing. It can be useful when a frontend application needs an API before the actual backend service is available.
 
 ## Author
 
