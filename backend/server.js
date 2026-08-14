@@ -46,7 +46,7 @@ app.post('/api/mocks', async (req, res) => {
         const newMock = await Mock.create({
             userId: userId || '101',
             endpointPath: endpointPath || path,
-            method,
+            method: method || 'GET',
             path: path || endpointPath,
             statusCode: statusCode || 200,
             jsonPayload: jsonPayload || responseBody,
@@ -59,6 +59,8 @@ app.post('/api/mocks', async (req, res) => {
             mock: newMock
         })
     } catch (error) {
+        console.error('Create mock error:', error)
+
         res.status(500).json({
             success: false,
             message: 'Failed to create mock API',
@@ -78,6 +80,8 @@ app.get('/api/mocks', async (req, res) => {
             mocks
         })
     } catch (error) {
+        console.error('Fetch mocks error:', error)
+
         res.status(500).json({
             success: false,
             message: 'Failed to fetch mock APIs',
@@ -104,6 +108,8 @@ app.delete('/api/mocks/:id', async (req, res) => {
             mock: deletedMock
         })
     } catch (error) {
+        console.error('Delete mock error:', error)
+
         res.status(500).json({
             success: false,
             message: 'Failed to delete mock API',
@@ -130,7 +136,7 @@ app.put('/api/mocks/:id', async (req, res) => {
             {
                 userId: userId || '101',
                 endpointPath: endpointPath || path,
-                method,
+                method: method || 'GET',
                 path: path || endpointPath,
                 statusCode: statusCode || 200,
                 jsonPayload: jsonPayload || responseBody,
@@ -155,6 +161,8 @@ app.put('/api/mocks/:id', async (req, res) => {
             mock: updatedMock
         })
     } catch (error) {
+        console.error('Update mock error:', error)
+
         res.status(500).json({
             success: false,
             message: 'Failed to update mock API',
@@ -164,31 +172,44 @@ app.put('/api/mocks/:id', async (req, res) => {
 })
 
 // =====================================================
-// INTERNSHIP CORE FEATURE
-// Dynamic mock API route
+// DYNAMIC MOCK API EXECUTION
+//
+// Supports:
+// GET
+// POST
+// PUT
+// PATCH
+// DELETE
 //
 // Example:
-// GET /mock/101/products
-//
-// userId = 101
-// endpointPath = /products
+// GET    /mock/sarah/users
+// POST   /mock/sarah/users
+// PUT    /mock/sarah/users
+// DELETE /mock/sarah/users
 // =====================================================
 
-app.get('/mock/:userId/*splat', async (req, res) => {
+app.all('/mock/:userId/*splat', async (req, res) => {
     try {
         const userId = req.params.userId
         const endpointPath = '/' + req.params.splat
+        const method = req.method.toUpperCase()
+
+        console.log(
+            `Mock request: ${method} /mock/${userId}${endpointPath}`
+        )
 
         const mock = await Mock.findOne({
             userId: userId,
             endpointPath: endpointPath,
-            method: 'GET'
+            method: method
         })
 
         if (!mock) {
             return res.status(404).json({
                 success: false,
-                message: 'Mock API not found'
+                message: 'Mock API not found',
+                method: method,
+                endpoint: endpointPath
             })
         }
 
@@ -196,6 +217,8 @@ app.get('/mock/:userId/*splat', async (req, res) => {
             mock.jsonPayload
         )
     } catch (error) {
+        console.error('Mock execution error:', error)
+
         res.status(500).json({
             success: false,
             message: 'Failed to execute mock API',

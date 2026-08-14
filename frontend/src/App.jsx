@@ -18,7 +18,7 @@ function App() {
     const fetchMocks = async () => {
         try {
             const response = await fetch(
-                'https://devmock-backend.onrender.com/api/mocks'
+                'http://localhost:5000/api/mocks'
             )
 
             const data = await response.json()
@@ -94,7 +94,7 @@ function App() {
 
         try {
             const response = await fetch(
-                'https://devmock-backend.onrender.com/api/mocks',
+                'http://localhost:5000/api/mocks',
                 {
                     method: 'POST',
                     headers: {
@@ -140,7 +140,7 @@ function App() {
 
         try {
             const response = await fetch(
-                `https://devmock-backend.onrender.com/api/mocks/${id}`,
+                `http://localhost:5000/api/mocks/${id}`,
                 {
                     method: 'DELETE'
                 }
@@ -177,7 +177,7 @@ function App() {
                 mock.endpointPath || mock.path
 
             const response = await fetch(
-                `https://devmock-backend.onrender.com/mock/${mockUserId}${mockPath}`,
+                `http://localhost:5000/mock/${mockUserId}${mockPath}`,
                 {
                     method: mock.method
                 }
@@ -232,7 +232,7 @@ function App() {
 
         try {
             const response = await fetch(
-                `https://devmock-backend.onrender.com/api/mocks/${editingId}`,
+                `http://localhost:5000/api/mocks/${editingId}`,
                 {
                     method: 'PUT',
                     headers: {
@@ -430,7 +430,7 @@ function App() {
                         mock.endpointPath || mock.path
 
                     const liveUrl =
-                        `https://devmock-backend.onrender.com/mock/${displayUserId}${displayPath}`
+                        `http://localhost:5000/mock/${displayUserId}${displayPath}`
 
                     const displayResponse =
                         mock.jsonPayload ||
